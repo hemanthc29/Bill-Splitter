@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bill Splitter with Names</title>
+    <link rel="stylesheet" href="styles.css">
+    <script>function calculate() {
+    const billAmount = parseFloat(document.getElementById('billAmount').value);
+    const namesInput = document.getElementById('names').value;
+    if (isNaN(billAmount) || billAmount <= 0) {
+        document.getElementById('result').textContent = "Please enter a valid total bill amount.";
+        return;
+    }
+
+    const names = namesInput
+        .split(',')
+        .map(name => name.trim())
+        .filter(name => name.length > 0);
+
+    if (names.length === 0) {
+        document.getElementById('result').textContent = "Please enter at least one valid name.";
+        return;
+    }
+    const amountPerPerson = (billAmount / names.length).toFixed(2);
+    let resultHTML = `<p>Total Bill: ${billAmount.toFixed(2)}</p>`;
+    resultHTML += `<p>Each person owes:</p>`;
+    resultHTML += `<ul>`;
+    names.forEach(name => {
+        resultHTML += `<li>${name}: ${amountPerPerson}</li>`;
+    });
+    resultHTML += `</ul>`;
+
+    document.getElementById('result').innerHTML = resultHTML;
+}</script>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Bill Splitter</h1>
+        <input type="number" id="billAmount" placeholder="Total Bill Amount (Rupees)" min="0" step="0.01">
+        <textarea id="names" placeholder="Enter names separated by commas" rows="4"></textarea>
+        <button onclick="calculate()">Calculate</button>
+        <div id="result" class="result"></div>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>
